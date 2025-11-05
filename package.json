@@ -1,0 +1,22 @@
+{
+  "name": "onboarding-get-parameter",
+  "version": "1.0.0",
+  "description": "Lambda que consulta un parámetro en Dynamo según el body recibido",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --reporter=lcov --reporter=text jasmine --config=test/support/jasmine.json"
+  },
+  "author": "Evelyn Rendon Kalil <evarendo@nequi.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@nequi/nequi-api-utils": "^1.0.2",
+    "@nequi/nequi-utils": "^7.1.0",
+    "jsonschema": "1.4.1"
+  },
+  "devDependencies": {
+    "@nequi/nequi-ci-utils": "^3.0.0",
+    "jasmine": "4.5.0",
+    "jasmine-reporters": "2.5.2",
+    "nyc": "15.1.0"
+  }
+}
