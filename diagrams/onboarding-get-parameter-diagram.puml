@@ -1,5 +1,35 @@
 @startuml
 header onboarding-get-parameter
 footer Página %page% of %lastpage%\nmade with ♥ by Nequi
-title Diagrama de Secuencia
+title Diagrama de Secuencia - onboarding-get-parameter
+
+actor Cliente
+participant "API Gateway" as APIGW
+participant "Lambda onboarding-get-parameter" as Lambda
+database "DynamoDB" as Dynamo
+
+Cliente -> APIGW: Envía RequestMessage (getParameter)
+APIGW -> Lambda: Invoca función onboarding-get-parameter
+
+alt RequestMessage válido
+    Lambda -> Dynamo: Consulta parámetro (parameter1, parameter2)
+    alt Parámetro encontrado
+        Dynamo --> Lambda: Retorna valor del parámetro
+        Lambda --> APIGW: ResponseMessage con StatusCode "0" (SUCCESS)
+        APIGW --> Cliente: Retorna respuesta exitosa
+    else Parámetro no encontrado
+        Dynamo --> Lambda: No existe registro
+        Lambda --> APIGW: ResponseMessage con StatusCode "20-03B" (PARAM_NOT_FOUND)
+        APIGW --> Cliente: Retorna error funcional
+    end
+else RequestMessage inválido o ausente
+    Lambda --> APIGW: ResponseMessage con StatusCode "20-05A" (BAD_PARAMETERS)
+    APIGW --> Cliente: Retorna error técnico
+end
+
+note over Lambda
+Valida estructura del RequestMessage.
+Si está ausente, responde BAD_PARAMETERS (20-05A).
+end note
+
 @enduml

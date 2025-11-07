@@ -2,8 +2,9 @@
   "variables": {
     "get": [],
     "set": {
-      "DEV": {},
+      "DEV": { "DYNAMO_TABLE": "nequi-parameters-qa"},
       "QA": {
+        "DYNAMO_TABLE": "nequi-parameters-qa",
         "NEQUI_ADDITIONAL_LOGGER_ENABLE": "true",
         "NEQUI_LOGGER_ENABLE": "true"
       },
@@ -12,7 +13,8 @@
     "deployDev": [],
     "deploy": [
       "NEQUI_ADDITIONAL_LOGGER_ENABLE",
-      "NEQUI_LOGGER_ENABLE"
+      "NEQUI_LOGGER_ENABLE",
+      "DYNAMO_TABLE"
     ],
     "publish": [],
     "both": []
