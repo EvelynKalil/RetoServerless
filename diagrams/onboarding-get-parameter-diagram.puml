@@ -4,32 +4,29 @@ footer Página %page% of %lastpage%\nmade with ♥ by Nequi
 title Diagrama de Secuencia - onboarding-get-parameter
 
 actor Cliente
-participant "API Gateway" as APIGW
 participant "Lambda onboarding-get-parameter" as Lambda
 database "DynamoDB" as Dynamo
 
-Cliente -> APIGW: Envía RequestMessage (getParameter)
-APIGW -> Lambda: Invoca función onboarding-get-parameter
+Cliente -> Lambda: Envía RequestMessage (getParameter)
 
 alt RequestMessage válido
-    Lambda -> Dynamo: Consulta parámetro (parameter1, parameter2)
+    Lambda -> Dynamo: Consulta parámetro (parameterKey, region)
     alt Parámetro encontrado
         Dynamo --> Lambda: Retorna valor del parámetro
-        Lambda --> APIGW: ResponseMessage con StatusCode "0" (SUCCESS)
-        APIGW --> Cliente: Retorna respuesta exitosa
+        Lambda --> Cliente: ResponseMessage con StatusCode "0" (SUCCESS)
     else Parámetro no encontrado
         Dynamo --> Lambda: No existe registro
-        Lambda --> APIGW: ResponseMessage con StatusCode "20-03B" (PARAM_NOT_FOUND)
-        APIGW --> Cliente: Retorna error funcional
+        Lambda --> Cliente: ResponseMessage con StatusCode "20-08A" (PARAM_NOT_FOUND)
     end
 else RequestMessage inválido o ausente
-    Lambda --> APIGW: ResponseMessage con StatusCode "20-05A" (BAD_PARAMETERS)
-    APIGW --> Cliente: Retorna error técnico
+    Lambda --> Cliente: ResponseMessage con StatusCode "20-05A" (BAD_PARAMETERS)
 end
 
 note over Lambda
-Valida estructura del RequestMessage.
-Si está ausente, responde BAD_PARAMETERS (20-05A).
+1️. Valida la estructura del RequestMessage.  
+2️. Si está ausente o incorrecto, responde BAD_PARAMETERS (20-05A).  
+3️. Si el parámetro no existe, responde PARAM_NOT_FOUND (20-08A).  
+4️. Si todo es correcto, retorna SUCCESS (0).
 end note
 
 @enduml

@@ -3,7 +3,7 @@
     "RequestHeader": {
       "Channel": "APP",
       "RequestDate": "2025-11-05T12:00:00Z",
-      "MessageID": "9999",
+      "MessageID": "8888",
       "ClientID": "Nequi",
       "Destination": {
         "ServiceName": "onboarding",
@@ -15,7 +15,7 @@
     "RequestBody": {
       "any": {
         "testRQ": {
-          "parameterKey": "onboardingTest"
+          "parameterKey": "noExiste"
         }
       }
     }
